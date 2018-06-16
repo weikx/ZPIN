@@ -2,7 +2,6 @@
   <div>
     <ul class="container log-list">
       <li v-for="(log, index) in logs" :class="{ red: aa }" :key="index" class="log-item">
-        <card :text="(index + 1) + ' . ' + log"></card>
       </li>
     </ul>
   </div>
@@ -10,11 +9,9 @@
 
 <script>
 import { formatTime } from '@/utils/index'
-import card from '@/components/card'
 
 export default {
   components: {
-    card
   },
 
   data () {

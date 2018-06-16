@@ -1,13 +1,23 @@
 <template>
-    $END$
+<div class="resume">
+  <loading></loading>
+</div>
 </template>
 
 <script>
-    export default {
-        name: "index"
+  import loading from '@/components/loading/loading'
+  export default {
+    components: {
+      loading
     }
+  }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.resume{
+  img{
+    margin-top: 100px;
+    margin-left: 10%;
+  }
+}
 </style>
