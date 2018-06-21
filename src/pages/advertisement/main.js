@@ -5,7 +5,6 @@ const app = new Vue(App)
 app.$mount()
 export default {
   config: {
-    navigationBarTitleText: '智障招聘',
-    backgroundColor: '#f9db61'
+    navigationBarTitleText: '广告~~'
   }
 }

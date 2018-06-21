@@ -2,25 +2,24 @@
   <div class="list-wrapper">
     <div class="list-top">
       <div class="list-left">
-        {{aa.bb}} Web 前端开发工程师
+        {{company.Name}}
       </div>
       <div class="list-right">
         {{company.Salary65}}
-        15K-30K
       </div>
     </div>
     <div class="list-center">
       <div class="list-left">
-        上海 不限 本科
+        {{company.WorkCity}} {{company.emplType}} {{company.Education}}
       </div>
       <div class="list-right"></div>
     </div>
-    <div class="list-foot">
+    <div class="list-bottom" v-if="!thisCompany">
       <div class="list-left">
-        {{company.CompanyName}}上海雷默广告有限公司
+        {{company.CompanyName}}
       </div>
-      <div class="list-right">
-        {{company.Distance}}324m
+      <div class="list-right" v-if="Distance > 0">
+        {{Distance}}m
       </div>
     </div>
   </div>
@@ -31,6 +30,9 @@
       props: {
         company: {
           type: Object
+        },
+        thisCompany: {
+          type: Boolean
         }
       },
       data () {
@@ -40,8 +42,12 @@
           }
         }
       },
-      create () {
-        console.log(99900999)
+      computed: {
+        Distance () {
+          return this.company.Distance.toFixed(0)
+        }
+      },
+      created () {
         console.log(this.company)
       }
     }
@@ -50,11 +56,9 @@
 <style scoped lang="scss">
   .list-wrapper{
     background: #fff;
-    height: 120px;
-    margin-top: 10px;
     padding: 12px;
     box-sizing: border-box;
-    .list-top, .list-center, .list-foot{
+    .list-top, .list-center, .list-bottom{
       display: flex;
       font-size: 12px;
       color: #666666;
@@ -82,7 +86,7 @@
     .list-center{
       line-height: 22px;
     }
-    .list-foot{
+    .list-bottom{
       line-height: 43.6px;
     }
   }

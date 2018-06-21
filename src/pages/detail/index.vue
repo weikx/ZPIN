@@ -1,115 +1,123 @@
 <template>
     <div class="detail">
-      <div class="tab">
-        <div class="tab-item" @click="check(1)">
-          <span :class="{checked: checkNum == 1}">职位详情</span>
-        </div>
-        <div class="tab-item" @click="check(2)">
-          <span :class="{checked: checkNum == 2}">公司详情</span>
-        </div>
+      <div class="loading">
+        <my-loading :type="2" v-if="!data"></my-loading>
       </div>
-      <div class="job-detail" v-if="checkNum == 1">
-        <div class="card" v-if="data.PositionDetail">
-          <div class="job">
-            <p>{{data.PositionDetail.Name}}</p>
-            <span>{{data.PositionDetail.Salary65}}</span>
+      <div v-if="data">
+        <div class="tab">
+          <div class="tab-item" @click="check(1)">
+            <span :class="{checked: checkNum == 1}">职位详情</span>
           </div>
-          <div class="company">
-            {{data.PositionDetail.CompanyName}}
-          </div>
-          <div class="requirement">
-            <p v-if="data.PositionDetail.WorkingExp">
-              <i class="iconfont icon-gongzuo"></i>
-              <span>{{data.PositionDetail.WorkingExp}}</span>
-            </p>
-            <p v-if="data.PositionDetail.Education">
-              <i class="iconfont icon-xueli1"></i>
-              <span>{{data.PositionDetail.Education}}</span>
-            </p>
-            <p v-if="data.PositionDetail.workType">
-              <i class="iconfont icon-jianzhizhongdiangong"></i>
-              <span>{{data.PositionDetail.workType}}</span>
-            </p>
-          </div>
-          <div class="welfare">
-            <p v-for="(item, index) in data.PositionDetail.WelfareTab" :key="index">{{item.value}}</p>
-          </div>
-          <div class="location">
-            <p>
-              <i class="iconfont icon-dengpao"></i>
-              <span>{{data.PositionDetail.WorkAddress}}</span>
-            </p>
+          <div class="tab-item" @click="check(2)">
+            <span :class="{checked: checkNum == 2}">公司详情</span>
           </div>
         </div>
-        <div class="card card2">
-          <div class="jobDesc">
-            <div class="line"></div>
-            <p>职位描述</p>
+        <div class="job-detail" v-if="checkNum == 1">
+          <div class="card" v-if="data.PositionDetail">
+            <div class="job">
+              <p>{{data.PositionDetail.Name}}</p>
+              <span>{{data.PositionDetail.Salary65}}</span>
+            </div>
+            <div class="company">
+              {{data.PositionDetail.CompanyName}}
+            </div>
+            <div class="requirement">
+              <p v-if="data.PositionDetail.WorkingExp">
+                <i class="iconfont icon-gongzuo"></i>
+                <span>{{data.PositionDetail.WorkingExp}}</span>
+              </p>
+              <p v-if="data.PositionDetail.Education">
+                <i class="iconfont icon-xueli1"></i>
+                <span>{{data.PositionDetail.Education}}</span>
+              </p>
+              <p v-if="data.PositionDetail.workType">
+                <i class="iconfont icon-jianzhizhongdiangong"></i>
+                <span>{{data.PositionDetail.workType}}</span>
+              </p>
+            </div>
+            <div class="welfare">
+              <p v-for="(item, index) in data.PositionDetail.WelfareTab" :key="index">{{item.value}}</p>
+            </div>
+            <div class="location">
+              <p>
+                <i class="iconfont icon-dengpao"></i>
+                <span>{{data.PositionDetail.WorkAddress}}</span>
+              </p>
+            </div>
           </div>
-          <div class="descText" v-html="data.PositionDetail.Description">
+          <div class="card card2">
+            <div class="jobDesc">
+              <div class="line"></div>
+              <p>职位描述</p>
+            </div>
+            <div class="descText" v-html="data.PositionDetail.Description">
+            </div>
+            <div class="tip">
+              <i class="iconfont icon-tishi"></i>
+              <span>提醒: 向应聘者收取任何费用都属违法行为, 请提高警惕!</span>
+            </div>
           </div>
-          <div class="tip">
-            <i class="iconfont icon-tishi"></i>
-            <span>提醒: 向应聘者收取任何费用都属违法行为, 请提高警惕!</span>
+          <div class="likeJob">
+            /相似职位/
+          </div>
+          <div class="list-wraper" @click="go(company.Number)"  v-for="(company, index) in  similar.Positions" :key="index">
+            <lists :company="company"></lists>
+          </div>
+          <div class="delivery">
+            <div class="btn" @click="delivery">
+              投递简历
+            </div>
           </div>
         </div>
-        <div class="likeJob">
-          /相似职位/
-        </div>
-        <list></list>
-        <list></list>
-        <list></list>
-        <list></list>
-        <list></list>
-        <div class="delivery">
-          <div class="btn" @click="delivery">
-            投递简历
+        <div class="company-detail" v-if="checkNum == 2">
+          <div class="card">
+            <div class="job">
+              <p>{{data.CompanyDetail.Name}}</p>
+            </div>
+            <div class="company">
+              <i class="iconfont icon-jiyinpailie"></i>
+              <span>{{data.CompanyDetail.Industry}}</span>
+            </div>
+            <div class="company">
+              <i class="iconfont icon-biaoqian"></i>
+              <span> 民营</span>
+            </div>
+            <div class="company">
+              <i class="iconfont icon-ren"></i>
+              <span>{{data.CompanyDetail.CompanySize}}</span>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="company-detail" v-if="checkNum == 2">
-        <div class="card">
-          <div class="job">
-            <p>{{data.CompanyDetail.Name}}</p>
+          <div class="card card2">
+            <div class="jobDesc">
+              <div class="line"></div>
+              <p>公司介绍</p>
+            </div>
+            <div class="descText" v-html="data.CompanyDetail.Description">
+              <p>&nbsp;</p>
+            </div>
           </div>
-          <div class="company">
-            <i class="iconfont icon-jiyinpailie"></i>
-            <span>{{data.CompanyDetail.Industry}}</span>
+          <div class="likeJob">
+            /他们还在招☕️/
           </div>
-          <div class="company">
-             <i class="iconfont icon-biaoqian"></i>
-            <span> 民营</span>
+          <div class="list-wraper" @click="go(company.Number)" v-for="(company, index) in  data.OtherPositions" :key="index">
+            <lists :company="company" :thisCompany="true"></lists>
           </div>
-          <div class="company">
-             <i class="iconfont icon-ren"></i>
-            <span>{{data.CompanyDetail.CompanySize}}</span>
-          </div>
-        </div>
-        <div class="card card2">
-          <div class="jobDesc">
-            <div class="line"></div>
-            <p>公司介绍</p>
-          </div>
-          <div class="descText" v-html="data.CompanyDetail.Description">
-            <p>&nbsp;</p>
-          </div>
-        </div>
-        <div class="likeJob">
-          /他们还在招☕️/
         </div>
       </div>
     </div>
 </template>
 
 <script>
-  import list from '@/components/list/list'
+  import lists from '@/components/list/list'
+  import myLoading from '@/components/loading/loading'
   import {request, ERR_OK} from '@/utils/api'
 
   export default {
     data () {
       return {
         checkNum: 1,
-        data: []
+        data: [],
+        similar: []
       }
     },
     methods: {
@@ -121,26 +129,56 @@
         wx.showToast({
           title: '假装已投递~'
         })
+      },
+      _getDetail () {
+        wx.showNavigationBarLoading()
+        let previousData = this.$root.$mp.query
+        let vm = this
+        request(`/detail/${previousData.id}`).then((data) => {
+          if (data.StatusCode === ERR_OK) {
+            vm.data = data
+            wx.hideNavigationBarLoading()
+            wx.setNavigationBarTitle({
+              title: data.PositionDetail.Name
+            })
+          } else {
+            wx.showToast({
+              title: ' 服务器挂咯~',
+              icon: 'none'
+            })
+            setTimeout(() => {
+              wx.showToast({
+                title: ' 原因见首页广告~',
+                icon: 'none'
+              })
+            }, 1000)
+          }
+        })
+      },
+      _getSimilar () {
+        let vm = this
+        request('/similar').then((data) => {
+          if (data.StatusCode === ERR_OK) {
+            vm.similar = data
+            console.log(vm.data)
+          }
+        })
+      },
+      go (id) {
+        wx.navigateTo({
+          url: `/pages/detail/main?id=${id}`
+        })
       }
     },
     onShow: function () {
       this.checkNum = 1
-      wx.showNavigationBarLoading()
-      let previousData = this.$root.$mp.query
-      let vm = this
-      request(`/detail/${previousData.id}`).then((data) => {
-        if (data.StatusCode === ERR_OK) {
-          vm.data = data
-          wx.hideNavigationBarLoading()
-          wx.setNavigationBarTitle({
-            title: data.PositionDetail.Name
-          })
-          console.log(vm.data)
-        }
-      })
+      this.data = null // data 默认设为空 因为小程序进入页面的时候会缓存上一次的数据
+      this._getSimilar()
+      this._getDetail()
     },
     components: {
-      list
+      lists,
+      myLoading
     }
   }
 </script>
@@ -296,6 +334,14 @@
       margin: 0 auto;
       margin-top: 10px;
     }
+  }
+  .list-wraper{
+    margin-top: 1px;
+  }
+  .loading{
+    position: fixed;
+    top: 0px;
+    left: 0px;
   }
 }
 </style>

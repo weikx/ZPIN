@@ -9,7 +9,7 @@
 	},
 	"miniprogramRoot": "./dist/",
 	"compileType": "miniprogram",
-	"appid": "touristappid",
+	"appid": "wx207cf75424861a86",
 	"projectname": "zpin",
 	"condition": {
 		"search": {
