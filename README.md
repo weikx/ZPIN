@@ -12,6 +12,7 @@
 - [ ] **地图定位**
 
 ##目录结构
+``` README
 ├─── README.md                // README
 ├─── index.html               // 入口页面
 ├─── build                    // 项目构建脚本
@@ -35,7 +36,7 @@
      │    └───  search        // 搜索职位
      └─── utils               // 公用文件
           └───  api           // 接口请求
-
+```
 ## Build Setup
 
 ``` bash
