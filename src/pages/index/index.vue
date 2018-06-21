@@ -268,8 +268,8 @@
           line-height: 43.6px;
           position: relative;
           .avatar{
-            width: 20px;
-            height: 20px;
+            width: 25px;
+            height: 25px;
             display: inline-block;
             vertical-align: top;
             border: 1px solid #f8f8fa;
